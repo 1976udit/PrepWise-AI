@@ -8,17 +8,8 @@ import DisplayTechIcons from "./DisplayTechIcons";
 import { cn, getRandomInterviewCover } from "@/lib/utils";
 import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
 
-interface InterviewCardProps {
-  id: string;
-  userId: string;
-  role: string;
-  type: string;
-  techstack: string[];
-  createdAt: string;
-}
-
 const InterviewCard = async ({
-  id,
+  interviewId,
   userId,
   role,
   type,
@@ -26,9 +17,9 @@ const InterviewCard = async ({
   createdAt,
 }: InterviewCardProps) => {
   const feedback =
-    userId && id
+    userId && interviewId
       ? await getFeedbackByInterviewId({
-          interviewId: id,
+          interviewId: interviewId || "",
           userId,
         })
       : null;
@@ -103,11 +94,7 @@ const InterviewCard = async ({
 
           <Button className="btn-primary">
             <Link
-              href={
-                feedback
-                  ? `/interview/${id}/feedback`
-                  : `/interview/${id}`
-              }
+              href={feedback ? `/interview/${interviewId}/feedback` : `/interview/${interviewId}`}
             >
               {feedback ? "Check Feedback" : "View Interview"}
             </Link>
